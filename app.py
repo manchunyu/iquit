@@ -25,3 +25,25 @@ def after_request(response):
 @login_required
 def index():
     render_template("index.html")
+
+@app.route("/login", methods=["GET","POST"])
+def login():
+
+    session.clear()
+
+    if request.method == "POST":
+        if not request.form.get("email"):
+            return -1
+        if not request.form.get("password"):
+            return -1
+    
+    else:
+        return render_template("login.html")
+        
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+
+
