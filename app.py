@@ -5,7 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import login_required
+from helpers import apology, login_required
 
 app = Flask(__name__)
 
@@ -33,9 +33,9 @@ def login():
 
     if request.method == "POST":
         if not request.form.get("email"):
-            return -1
+            return apology()
         if not request.form.get("password"):
-            return -1
+            return apology()
     
     else:
         return render_template("login.html")
