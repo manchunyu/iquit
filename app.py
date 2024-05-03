@@ -8,6 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 
 app = Flask(__name__)
+db = SQL("sqlite:///habit.db")
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -33,9 +34,11 @@ def login():
 
     if request.method == "POST":
         if not request.form.get("email"):
-            return apology()
+            return apology("Please enter E-mail")
         if not request.form.get("password"):
-            return apology()
+            return apology("Please enter a password")
+        
+        return redirect("/")
     
     else:
         return render_template("login.html")
