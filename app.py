@@ -33,10 +33,21 @@ def login():
     session.clear()
 
     if request.method == "POST":
-        if not request.form.get("email"):
+        if not (email := request.form.get("email")):
             return apology("Please enter E-mail")
         if not request.form.get("password"):
             return apology("Please enter a password")
+        
+        rows = db.execute(
+            "SELECT email, hash FROM users WHERE email = ?", email
+            )
+
+        if len(rows) != 1 or not check_password_hash(
+            rows[0]["hash"], request.form.get("password")
+        ):
+            return apology("invalid username and/or password", 403)
+        
+        session["user_id"] = rows[0]["id"]
         
         return redirect("/")
     
