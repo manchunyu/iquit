@@ -56,15 +56,16 @@ def login():
     
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    if request.method == "POST":
 
-        user_infos = [first_name, last_name, email, password, confirmation]
+    if request.method == "POST":
 
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
         email = request.form.get("email")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
+
+        user_infos = [first_name, last_name, email, password, confirmation]
 
         for info in user_infos:
             if not info:
@@ -87,7 +88,7 @@ def register():
         return redirect("/login")
     
     else:
-        render_template("register.html")
+        return render_template("register.html")
 
         
 
