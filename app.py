@@ -53,7 +53,44 @@ def login():
     
     else:
         return render_template("login.html")
+    
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+
+        user_infos = [first_name, last_name, email, password, confirmation]
+
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
+
+        for info in user_infos:
+            if not info:
+                return apology("Please enter all required fields")
+            
+        if password != confirmation:
+            return apology("Passwords do not match")
         
+        count = db.execute("SELECT COUNT(*) AS n FROM users \
+                           WHERE email = ?", email)
+        
+        if count[0]["n"] > 0:
+            return apology("Email already registered")
+        
+        db.execute("INSERT INTO users(first_name, last_name, email, hash)\
+                   VALUES(?, ?, ?, ?)", 
+                   first_name, last_name, email, 
+                   generate_password_hash(password))
+        
+        return redirect("/login")
+    
+    else:
+        render_template("register.html")
+
+        
+
 @app.route("/logout")
 def logout():
     session.clear()
