@@ -4,8 +4,12 @@
 
 {% block main %}
 <form action="/login" method="post">
-    <input name="email" placeholder="Email" type="email" autocomplete="off">
-    <input name="password" placeholder="password" type="password" autocomplete="off">
-    <button type="submit">Log In</button>
+    <div class="mb-3">
+        <input name="email" placeholder="Email" type="email" autocomplete="off" class="form-control mx-auto w-auto">
+    </div>
+    <div class="mb-3">
+        <input name="password" placeholder="password" type="password" autocomplete="off" class="form-control mx-auto w-auto">
+    </div>
+    <button type="submit" class="btn btn-primary">Log In</button>
 </form>
 {% endblock %}
