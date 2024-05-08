@@ -103,5 +103,8 @@ def habits():
         habit = request.form.get("habit")
         if not habit:
             return apology("Please enter a habit")
+        common_habits = ["Smoking", "Gambling", "Drinking alcohol", "Drug use", "Poor diet",
+                         "Social media scrolling"]
+        
         
         

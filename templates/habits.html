@@ -3,5 +3,17 @@
 {% block title %}Habits{% endblock %}
 
 {% block main %}
+    <h3>What would you like to quit?</h3>
 
+    <h4>Common bad habits:</h4>
+    <select>
+        {% for habit in common_habits %}
+        <option>{{ habit }}</option>
+        {% endfor %}
+    </select>
+
+    <script>
+        let choice = document.querySelector('select')
+        
+    </script>
 {% endblock %}
