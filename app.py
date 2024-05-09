@@ -97,14 +97,16 @@ def logout():
     session.clear()
     return redirect("/")
 
-@app.route("/habits", methods=["GET", "POST"])
+@app.route("/edit", methods=["GET", "POST"])
 def habits():
     if request.method == "POST":
         habit = request.form.get("habit")
         if not habit:
             return apology("Please enter a habit")
+    else:
         common_habits = ["Smoking", "Gambling", "Drinking alcohol", "Drug use", "Poor diet",
-                         "Social media scrolling"]
+                         "Social media scrolling", "Others"]
+        return render_template("habits.html", common_habits=common_habits)
         
         
         

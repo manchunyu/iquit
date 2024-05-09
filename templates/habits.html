@@ -6,14 +6,28 @@
     <h3>What would you like to quit?</h3>
 
     <h4>Common bad habits:</h4>
-    <select>
-        {% for habit in common_habits %}
-        <option>{{ habit }}</option>
-        {% endfor %}
-    </select>
+
+    <form action="/edit" method="post">
+        <select>
+            {% for habit in common_habits %}
+                <option>{{ habit }}</option>
+            {% endfor %}
+        </select>
+        <input id="others" hidden type="text" placeholder="I would like to quit...">
+        <button type="submit">Add</button>
+    </form>
 
     <script>
-        let choice = document.querySelector('select')
-        
+        let choice = document.querySelector('select');
+        let input = document.querySelector('#others');
+    
+        choice.addEventListener('change', function() {
+            if (choice.value === "Others") {
+                input.removeAttribute('hidden');
+            } else {
+                input.setAttribute('hidden', true);
+            }
+        });
     </script>
+    
 {% endblock %}
