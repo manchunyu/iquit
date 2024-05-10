@@ -39,7 +39,7 @@ def login():
             return apology("Please enter a password")
         
         rows = db.execute(
-            "SELECT email, hash FROM users WHERE email = ?", email
+            "SELECT * FROM users WHERE email = ?", email
             )
 
         if len(rows) != 1 or not check_password_hash(
