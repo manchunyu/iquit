@@ -97,7 +97,7 @@ def logout():
     session.clear()
     return redirect("/")
 
-@app.route("/edit", methods=["GET", "POST"])
+@app.route("/add", methods=["GET", "POST"])
 def habits():
     if request.method == "POST":
         habit = request.form.get("habit")
