@@ -106,7 +106,7 @@ def habits():
     else:
         common_habits = ["Smoking", "Gambling", "Drinking alcohol", "Drug use", "Poor diet",
                          "Social media scrolling", "Others"]
-        return render_template("habits.html", common_habits=common_habits)
+        return render_template("add.html", common_habits=common_habits)
         
         
         
