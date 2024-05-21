@@ -16,14 +16,12 @@ Session(app)
 
 @app.after_request
 def after_request(response):
-    """Ensure responses aren't cached"""
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
 
 @app.route("/")
-@login_required
 def index():
     render_template("index.html")
 
@@ -98,11 +96,20 @@ def logout():
     return redirect("/")
 
 @app.route("/add", methods=["GET", "POST"])
+@login_required
 def habits():
     if request.method == "POST":
         habit = request.form.get("habit")
         if not habit:
             return apology("Please enter a habit")
+        
+        starting_streak = 0
+        time = datetime.datetime.now()
+        db.execute("INSERT INTO habits(users_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?)", 
+                   session["user_id"], habit, time, time, starting_streak)
+
+        return redirect("/dashboard")
+    
     else:
         common_habits = ["Smoking", "Gambling", "Drinking alcohol", "Drug use", "Poor diet",
                          "Social media scrolling", "Others"]
