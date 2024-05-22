@@ -115,5 +115,8 @@ def habits():
                          "Social media scrolling", "Others"]
         return render_template("add.html", common_habits=common_habits)
         
-        
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template("dashboard.html")
         
