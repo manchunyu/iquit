@@ -13,9 +13,9 @@
         <tbody>
             {% for habit in habits %}
             <tr>
-                <th>{{ habit }}</th>
+                <th>{{ habit.habit }}</th>
                 <td>
-                    ...
+                    {{ habit.streak }}
                 </td>
             </tr>
             {% endfor %}
