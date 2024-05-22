@@ -47,7 +47,7 @@ def login():
         
         session["user_id"] = rows[0]["id"]
         
-        return redirect("/")
+        return redirect("/dashboard")
     
     else:
         return render_template("login.html")

@@ -3,5 +3,22 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block main %}
-
+    <table>
+        <thead>
+            <tr>
+                <th>Habits</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for habit in habits %}
+            <tr>
+                <th>{{ habit }}</th>
+                <td>
+                    ...
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
