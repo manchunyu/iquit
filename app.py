@@ -25,6 +25,31 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
+@app.route("/add", methods=["GET", "POST"])
+@login_required
+def habits():
+    if request.method == "POST":
+        habit = request.form.get("habit")
+        if not habit:
+            return apology("Please enter a habit")
+        
+        starting_streak = 0
+        time = datetime.datetime.now()
+        db.execute("INSERT INTO habits(users_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?)", 
+                   session["user_id"], habit, time, time, starting_streak)
+
+        return redirect("/dashboard")
+    
+    else:
+        common_habits = ["Smoking", "Gambling", "Drinking alcohol", "Drug use", "Poor diet",
+                         "Social media scrolling", "Others"]
+        return render_template("add.html", common_habits=common_habits)
+        
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template("dashboard.html")
+
 @app.route("/login", methods=["GET","POST"])
 def login():
 
@@ -94,29 +119,3 @@ def register():
 def logout():
     session.clear()
     return redirect("/")
-
-@app.route("/add", methods=["GET", "POST"])
-@login_required
-def habits():
-    if request.method == "POST":
-        habit = request.form.get("habit")
-        if not habit:
-            return apology("Please enter a habit")
-        
-        starting_streak = 0
-        time = datetime.datetime.now()
-        db.execute("INSERT INTO habits(users_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?)", 
-                   session["user_id"], habit, time, time, starting_streak)
-
-        return redirect("/dashboard")
-    
-    else:
-        common_habits = ["Smoking", "Gambling", "Drinking alcohol", "Drug use", "Poor diet",
-                         "Social media scrolling", "Others"]
-        return render_template("add.html", common_habits=common_habits)
-        
-@app.route("/dashboard")
-@login_required
-def dashboard():
-    return render_template("dashboard.html")
-        

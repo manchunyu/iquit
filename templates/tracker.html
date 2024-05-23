@@ -3,5 +3,12 @@
 {% block title %}Tracker{% endblock %}
 
 {% block main %}
-    
+    <h1>Bad habits that you did not engage in today</h1>
+
+    <form action="/tracker" method="post">
+        {% for habit in habits %}
+            <input name="habit" type="checkbox" value="{{ habit.habit }}">{{ habit.habit }}
+        {% endfor%}
+        <button type="submit">Submit</button>
+    </form>
 {% endblock %}
