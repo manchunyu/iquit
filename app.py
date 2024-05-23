@@ -50,6 +50,22 @@ def habits():
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/tracker", methods=["GET", "POST"])
+@login_required
+def tracker():
+    if request.method == "POST":
+        daily_habits = request.form.getlist("habit")
+
+        for habit in daily_habits:
+            db.execute("UPDATE habits SET streak = streak + 1, enter_time = ?", datetime.datetime.now())
+    
+    else:
+        habits = db.execute("SELECT * FROM habits WHERE user_id = ?",
+                                 session["user_id"])
+        
+        return render_template("tracker.html", habits=habits)
+
+
 @app.route("/login", methods=["GET","POST"])
 def login():
 
