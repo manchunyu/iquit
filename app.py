@@ -58,6 +58,8 @@ def tracker():
 
         for habit in daily_habits:
             db.execute("UPDATE habits SET streak = streak + 1, enter_time = ?", datetime.datetime.now())
+
+        return redirect("/dashboard")
     
     else:
         habits = db.execute("SELECT * FROM habits WHERE user_id = ?",
