@@ -65,7 +65,11 @@ def tracker():
         habits = db.execute("SELECT * FROM habits WHERE user_id = ?",
                                  session["user_id"])
         
-        return render_template("tracker.html", habits=habits)
+        
+        if habits[0]["enter_time"] == datetime.datetime.now().date():
+
+        
+            return render_template("tracker.html", habits=habits)
 
 
 @app.route("/login", methods=["GET","POST"])
