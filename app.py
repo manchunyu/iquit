@@ -76,8 +76,9 @@ def tracker():
 
         for habit in daily_habits:
             db.execute(
-                "UPDATE habits SET streak = streak + 1, enter_time = ?",
-                datetime.datetime.now().today(),
+                "UPDATE habits SET streak = streak + 1, enter_time = ?\
+                WHERE habit = ?",
+                datetime.datetime.now().today(), habit
             )
 
         return redirect("/dashboard")
