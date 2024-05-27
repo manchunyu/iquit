@@ -96,6 +96,7 @@ def tracker():
             return redirect("/add")
 
         for row in habits:
+            # SQLite store as string: has to convert to correct object for comparison
             if datetime.datetime.strptime(row["enter_time"], "%Y-%m-%d").date() == datetime.datetime.now().date():
                 return apology("Today's work is done", 403)
             
