@@ -37,7 +37,7 @@ def habits():
             return apology("Please enter a habit")
 
         starting_streak = 0
-        todays_date = datetime.datetime.now().today()
+        todays_date = datetime.datetime.now().date()
         db.execute(
             "INSERT INTO habits(user_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?, ?, ?)",
             session["user_id"],
@@ -82,7 +82,7 @@ def tracker():
             db.execute(
                 "UPDATE habits SET streak = streak + 1, enter_time = ?\
                 WHERE habit = ?",
-                datetime.datetime.now().today(), habit
+                datetime.datetime.now().date(), habit
             )
 
         return redirect("/dashboard")
@@ -95,11 +95,12 @@ def tracker():
         if not habits:
             return redirect("/add")
 
-        if habits[0]["enter_time"] != datetime.datetime.now().date():
-            return render_template("tracker.html", habits=habits)
-
+        for row in habits:
+            if row["enter_time"] == datetime.datetime.now().date():
+                return apology("Today's work is done", 403)
         else:
-            return apology("Today's work is done", 403)
+            return render_template("tracker.html", habits=habits)
+            
 
 
 @app.route("/login", methods=["GET", "POST"])
