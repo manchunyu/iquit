@@ -96,8 +96,9 @@ def tracker():
             return redirect("/add")
 
         for row in habits:
-            if row["enter_time"] == datetime.datetime.now().date():
+            if datetime.datetime.strptime(row["enter_time"], "%Y-%m-%d").date() == datetime.datetime.now().date():
                 return apology("Today's work is done", 403)
+            
         else:
             return render_template("tracker.html", habits=habits)
             
