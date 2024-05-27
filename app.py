@@ -39,7 +39,7 @@ def habits():
         starting_streak = 0
         todays_date = datetime.datetime.now().today()
         db.execute(
-            "INSERT INTO habits(users_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?)",
+            "INSERT INTO habits(users_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?, ?, ?)",
             session["user_id"],
             habit,
             todays_date,

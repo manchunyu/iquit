@@ -8,7 +8,7 @@
     <h4>Common bad habits:</h4>
 
     <form action="/add" method="post">
-        <select>
+        <select name="habit">
             {% for habit in common_habits %}
                 <option>{{ habit }}</option>
             {% endfor %}
