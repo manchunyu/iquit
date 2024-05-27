@@ -39,7 +39,7 @@ def habits():
         starting_streak = 0
         todays_date = datetime.datetime.now().today()
         db.execute(
-            "INSERT INTO habits(users_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?, ?, ?)",
+            "INSERT INTO habits(user_id, habit, start_time, enter_time, streak) VALUES(?, ?, ?, ?, ?)",
             session["user_id"],
             habit,
             todays_date,
@@ -65,7 +65,11 @@ def habits():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+
+    habits = db.execute("SELECT * FROM habits\
+                        WHERE user_id = ?", session["user_id"])
+    
+    return render_template("dashboard.html", habits=habits)
 
 
 @app.route("/tracker", methods=["GET", "POST"])
