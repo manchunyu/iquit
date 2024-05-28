@@ -22,6 +22,7 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -65,9 +66,12 @@ def habits():
 @login_required
 def dashboard():
 
-    habits = db.execute("SELECT * FROM habits\
-                        WHERE user_id = ?", session["user_id"])
-    
+    habits = db.execute(
+        "SELECT * FROM habits\
+                        WHERE user_id = ?",
+        session["user_id"],
+    )
+
     return render_template("dashboard.html", habits=habits)
 
 
@@ -81,7 +85,8 @@ def tracker():
             db.execute(
                 "UPDATE habits SET streak = streak + 1, enter_time = ?\
                 WHERE habit = ?",
-                datetime.datetime.now().date(), habit
+                datetime.datetime.now().date(),
+                habit,
             )
 
         return redirect("/dashboard")
@@ -93,15 +98,17 @@ def tracker():
 
         if not habits:
             return redirect("/add")
-
+        
         for row in habits:
             # SQLite store as string: has to convert to correct object for comparison
-            if datetime.datetime.strptime(row["enter_time"], "%Y-%m-%d").date() == datetime.datetime.now().date():
+            if (
+            datetime.datetime.strptime(row["enter_time"], "%Y-%m-%d").date()
+            == datetime.datetime.now().date()
+            ):
                 return apology("Today's work is done", 403)
-            
+
         else:
             return render_template("tracker.html", habits=habits)
-            
 
 
 @app.route("/login", methods=["GET", "POST"])
