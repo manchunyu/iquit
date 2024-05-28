@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 
 app = Flask(__name__)
-db = SQL("sqlite:///habit.db")
+db = SQL("sqlite:///iquit.db")
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
