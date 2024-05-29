@@ -110,10 +110,6 @@ def tracker():
         else:
             return render_template("tracker.html", habits=habits)
 
-@app.route("/leaderboard")
-@login_required
-def leaderboard():
-    
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -139,7 +135,10 @@ def login():
     else:
         return render_template("login.html")
 
-
+@app.route("/leaderboard")
+@login_required
+def leaderboard():
+    
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
