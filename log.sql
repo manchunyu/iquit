@@ -13,4 +13,10 @@ CREATE TABLE habits (
     streak INTEGER,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
+CREATE TABLE friendships (
+    member1id INTEGER NOT NULL,
+    member2id INTEGER NOT NULL,
+    FOREIGN KEY(member1id) REFERENCES users(id),
+    FOREIGN KEY(member2id) REFERENCES users(id)
+);
 

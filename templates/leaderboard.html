@@ -6,7 +6,9 @@
     <table>
         <thead>
             <tr>
-                <th>Username</th>
+                <th>Rank</th>
+                <th>Last name</th>
+                <th>First name</th>
                 <th>Score</th>
             </tr>
         </thead>
@@ -15,7 +17,8 @@
             {% for user in leaders %}
                 <tr>
                     <td>{{loop.index}}</td> 
-                    <td>{{user.username}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.first_name}}</td>
                     <td>{{user.score}}</td>
                 </tr>
             {% endfor%}
