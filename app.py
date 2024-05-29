@@ -138,7 +138,11 @@ def login():
 @app.route("/leaderboard")
 @login_required
 def leaderboard():
-    
+    leaders = db.execute("SELECT * FROM scores LIMIT 30\
+                         ORDER BY score DESC")
+    return render_template("leaderboard.html", leaders=leaders)
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
