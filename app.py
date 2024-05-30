@@ -116,12 +116,12 @@ def login():
     session.clear()
 
     if request.method == "POST":
-        if not (username := request.form.get("username")):
-            return apology("Please enter Username")
+        if not (email := request.form.get("email")):
+            return apology("Please enter Email")
         if not request.form.get("password"):
             return apology("Please enter a password")
 
-        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+        rows = db.execute("SELECT * FROM users WHERE email = ?", email)
 
         if len(rows) != 1 or not check_password_hash(
             rows[0]["hash"], request.form.get("password")
@@ -150,11 +150,11 @@ def register():
 
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
-        username = request.form.get("username")
+        email = request.form.get("email")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
-        user_infos = [first_name, last_name, username, password, confirmation]
+        user_infos = [first_name, last_name, email, password, confirmation]
 
         for info in user_infos:
             if not info:
@@ -165,19 +165,19 @@ def register():
 
         count = db.execute(
             "SELECT COUNT(*) AS n FROM users \
-                           WHERE username = ?",
-            username,
+                           WHERE email = ?",
+            email,
         )
 
         if count[0]["n"] > 0:
             return apology("Username already registered")
 
         db.execute(
-            "INSERT INTO users(first_name, last_name, username, hash)\
+            "INSERT INTO users(first_name, last_name, email, hash)\
                    VALUES(?, ?, ?, ?)",
             first_name,
             last_name,
-            username,
+            email,
             generate_password_hash(password),
         )
 

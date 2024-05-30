@@ -14,9 +14,15 @@ CREATE TABLE habits (
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
 CREATE TABLE friendships (
-    member1id INTEGER NOT NULL,
-    member2id INTEGER NOT NULL,
+    user1id INTEGER NOT NULL,
+    user2id INTEGER NOT NULL,
     FOREIGN KEY(member1id) REFERENCES users(id),
     FOREIGN KEY(member2id) REFERENCES users(id)
+);
+
+CREATE TABLE scores (
+    u1id INTEGER NOT NULL,
+    u2id INTEGER,
+    verified INTEGER,
 );
 
