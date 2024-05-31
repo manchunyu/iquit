@@ -93,13 +93,13 @@ def tracker():
 
     else:
         habits = db.execute(
-            "SELECT * FROM habits WHERE user_id = ?", session["user_id"]
+            "SELECT habit FROM habits WHERE user_id = ?", session["user_id"]
         )
 
         if not habits:
             return redirect("/add")
         
-        for row in habits:
+        """for row in habits:
             # SQLite store as string: has to convert to correct object for comparison
             if (
             datetime.datetime.strptime(row["enter_time"], "%Y-%m-%d").date()
@@ -107,8 +107,8 @@ def tracker():
             ):
                 return apology("Today's work is done", 403)
 
-        else:
-            return render_template("tracker.html", habits=habits)
+        else:"""
+        return render_template("tracker.html", habits=habits)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -134,7 +134,7 @@ def login():
 
     else:
         return render_template("login.html")
-
+    
 @app.route("/leaderboard")
 @login_required
 def leaderboard():

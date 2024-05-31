@@ -9,6 +9,20 @@
         {% for habit in habits %}
             <input name="habit" type="checkbox" value="{{ habit.habit }}">{{ habit.habit }}
         {% endfor%}
+        <input name="verification" type="radio" id="verification">Gain points by a friend's verification
+        <select id="friends" hidden>
+            {% for friend in friendships %}
+                <option value="{{ friend.first_name }}"> {{ friend.first_name }}</option>
+            {% endfor %}
+        </select>
         <button type="submit">Submit</button>
     </form>
+
+    <script>
+        let verification = document.querySelector('#verification');
+        let friendsList = document.querySelector('#friends');
+        verification.addEventListener('select', function() {
+            friendsList.removeAttribute('hidden');
+        })
+    </script>
 {% endblock %}
