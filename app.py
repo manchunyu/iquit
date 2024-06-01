@@ -30,11 +30,15 @@ def index():
 
 @app.route("/add", methods=["GET", "POST"])
 @login_required
-def habits():
+def add():
     if request.method == "POST":
         habit = request.form.get("habit")
+
         if not habit:
             return apology("Please enter a habit")
+        
+        if habit == "Others":
+            habit = request.form.get("others")
 
         starting_streak = 0
         todays_date = datetime.datetime.now().date()
