@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block title %}Friends{% endblock %}
+
+{% block main %}
+    {% for friend in friends %}
+        <a href="/profile">{{friend.first_name}}</a>
+    {% endfor %}
+{% endblock%}
