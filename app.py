@@ -114,6 +114,26 @@ def tracker():
         else:"""
         return render_template("tracker.html", habits=habits)
 
+@app.route("/leaderboard")
+@login_required
+def leaderboard():
+    leaders = db.execute("SELECT * FROM scores LIMIT 30\
+                         ORDER BY score DESC")
+    return render_template("leaderboard.html", leaders=leaders)
+
+@app.route("/search")
+def search():
+    q = request.args.get("q")
+    friend_info = db.execute("SELECT * FROM users WHERE email = ?", q)
+    return jsonify(friend_info)
+
+@app.route("/friends")
+def friends():
+    friends = db.execute("SELECT * FROM users WHERE id IN\
+                         (SELECT member2id FROM friendships\
+                         WHERE id = ?)", session["user_id"])
+    return render_template("friends.html", friends=friends)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -138,19 +158,6 @@ def login():
 
     else:
         return render_template("login.html")
-    
-@app.route("/leaderboard")
-@login_required
-def leaderboard():
-    leaders = db.execute("SELECT * FROM scores LIMIT 30\
-                         ORDER BY score DESC")
-    return render_template("leaderboard.html", leaders=leaders)
-
-@app.route("/search")
-def search():
-    q = request.args.get("q")
-    friend_info = db.execute("SELECT * FROM users WHERE email = ?", q)
-    return jsonify(friend_info)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
