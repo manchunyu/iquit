@@ -3,7 +3,11 @@
 {% block title %}Friends{% endblock %}
 
 {% block main %}
+    <h1>Friends List</h1>
+    <button>Add a friend</button> 
+    <ul>
     {% for friend in friends %}
-        <a href="/profile">{{friend.first_name}}</a>
+        <li>{{friend.first_name}}</li>
     {% endfor %}
+    </ul>
 {% endblock%}
