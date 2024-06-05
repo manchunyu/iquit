@@ -4,7 +4,7 @@
 
 {% block main %}
     
-    <input autofocus name="email" type="email" placeholder="Enter their Email">
+    <input autofocus name="q" type="email" placeholder="Enter their Email">
     <button type="button">Search</button>
     
     <ul></ul>
@@ -13,15 +13,16 @@
         let input = document.querySelector('input');
         let button = document.querySelector('button')
 
-        button.addEventListener('input', async function() {
+        button.addEventListener('click', async function() {
 
             let response = await fetch('/search?q=' + input.value);
-            let friend = await reponse.json();
+            let friend = await response.json();
 
-            firstName = friend['first_name']
-            lastName = friend['last_name']
+            let firstName = friend['first_name']
+            let lastName = friend['last_name']
+            let html =''
 
-            html = '<li>' + firstName + lastName + '</li>'
+            html += '<li>' + firstName + ' ' + lastName + '</li>'
             
             document.querySelector('ul').innerHTML = html;
         })
