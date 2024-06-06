@@ -15,16 +15,29 @@
 
         button.addEventListener('click', async function() {
 
-            let response = await fetch('/search?q=' + input.value);
-            let friend = await response.json();
+            let input = document.querySelector('input');
+            let button = document.querySelector('button');
 
-            let firstName = friend['first_name']
-            let lastName = friend['last_name']
-            let html =''
-
-            html += '<li>' + firstName + ' ' + lastName + '</li>'
-            
-            document.querySelector('ul').innerHTML = html;
-        })
+            button.addEventListener('click', async function() {
+                try {
+                    let response = await fetch('/search?q=' + encodeURIComponent(input.value));
+                    
+                    if (!response.ok) {
+                        throw new Error('Friend not found');
+                    }
+    
+                    let friend = await response.json();
+    
+                    let firstName = friend['first_name'];
+                    let lastName = friend['last_name'];
+                    let html = '';
+                
+                    html += '<li>' + firstName + ' ' + lastName + '</li>';
+                
+                    document.querySelector('ul').innerHTML = html;
+            } catch (error) {
+                document.querySelector('ul').innerHTML = '<li>' + error.message + '</li>';
+            }
+        })});
     </script>
 {% endblock %}

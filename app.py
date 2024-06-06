@@ -124,7 +124,12 @@ def leaderboard():
 @app.route("/search")
 def search():
     q = request.args.get("q")
-    friend_info = db.execute("SELECT * FROM users WHERE email = ?", q)
+    info = db.execute("SELECT * FROM users WHERE email = ?", q)
+    friend_info = next((user for user in info if user["email"] == q), None)
+    
+    if not friend_info:
+        return jsonify({"error": "Friend not found"}), 404
+    
     return jsonify(friend_info)
 
 @app.route("/friends")
