@@ -32,13 +32,20 @@ def index():
 @login_required
 def add():
     if request.method == "POST":
+
+        habits_list = db.execute("SELECT habit FROM habits WHERE user_id = ?", session["user_id"])
         habit = request.form.get("habit")
 
         if not habit:
             return apology("Please enter a habit")
-        
+ 
         if habit == "Others":
             habit = request.form.get("others")
+        
+        # Make sure same habit did not get registered twice
+        for row in habits_list:
+            if habit == row["habit"]:
+                return apology("Habit already registered", 403)
 
         starting_streak = 0
         todays_date = datetime.datetime.now().date()
@@ -125,12 +132,7 @@ def leaderboard():
 def search():
     q = request.args.get("q")
     info = db.execute("SELECT * FROM users WHERE email = ?", q)
-    friend_info = next((user for user in info if user["email"] == q), None)
-    
-    if not friend_info:
-        return jsonify({"error": "Friend not found"}), 404
-    
-    return jsonify(friend_info)
+    return jsonify(info)
 
 @app.route("/friends")
 def friends():
