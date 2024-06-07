@@ -3,41 +3,37 @@
 {% block title %}Add a friend{% endblock %}
 
 {% block main %}
+    <form id="search-form">
+        <input autofocus name="q" type="email" placeholder="Enter their Email">
+        <button type="submit">Search</button>
+    </form>
     
-    <input autofocus name="q" type="email" placeholder="Enter their Email">
-    <button type="button">Search</button>
-    
-    <ul></ul>
+    <ul id="userslist"></ul>
 
     <script>
-        let input = document.querySelector('input');
-        let button = document.querySelector('button')
+        document.getElementById('search-form').addEventListener('submit', async function(event) {
+            event.preventDefault();  // Prevent the form from submitting traditionally
 
-        button.addEventListener('click', async function() {
+            let input = document.querySelector('input[name="q"]');
+            let ul = document.querySelector('#userslist');
 
-            let input = document.querySelector('input');
-            let button = document.querySelector('button');
-
-            button.addEventListener('click', async function() {
-                try {
-                    let response = await fetch('/search?q=' + encodeURIComponent(input.value));
-                    
-                    if (!response.ok) {
-                        throw new Error('Friend not found');
-                    }
-    
-                    let friend = await response.json();
-    
-                    let firstName = friend['first_name'];
-                    let lastName = friend['last_name'];
-                    let html = '';
+            try {
+                let response = await fetch('/search?q=' + encodeURIComponent(input.value));
                 
-                    html += '<li>' + firstName + ' ' + lastName + '</li>';
-                
-                    document.querySelector('ul').innerHTML = html;
+                if (!response.ok) {
+                    throw new Error('Friend not found');
+                }
+
+                let friend = await response.json();
+
+                let firstName = friend[0]['first_name'];
+                let lastName = friend[0]['last_name'];
+                let html = '<li>' + firstName + ' ' + lastName + '</li>';
+
+                ul.innerHTML = html;
             } catch (error) {
-                document.querySelector('ul').innerHTML = '<li>' + error.message + '</li>';
+                ul.innerHTML = '<li>' + error.message + '</li>';
             }
-        })});
+        });
     </script>
 {% endblock %}
