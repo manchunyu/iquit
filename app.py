@@ -141,9 +141,12 @@ def friends():
                          WHERE id = ?)", session["user_id"])
     return render_template("friends.html", friends=friends)
 
-@app.route("/addfriend")
+@app.route("/addfriend", methods=["GET", "POST"])
 def addfriend():
-    return render_template("addfriend.html")
+    if request.method == "GET": 
+        return render_template("addfriend.html")
+    else: 
+        email = request.form.get("email")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

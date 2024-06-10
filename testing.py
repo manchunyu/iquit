@@ -1,2 +1,1 @@
-import datetime
-print(datetime.datetime.now().date())
+print(int("000"))
