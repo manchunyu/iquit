@@ -3,13 +3,11 @@
 {% block title %}Add a friend{% endblock %}
 
 {% block main %}
-    <form id="search-form">
+    <form id="search-form" method="post">
         <input autofocus name="q" type="email" placeholder="Enter their Email">
         <button type="submit">Search</button>
     
-    
-
-        <ul id="userslist"></ul>
+        <ul id="userslist" name="user"></ul>
     </form>
 
     <script>

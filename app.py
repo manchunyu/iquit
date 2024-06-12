@@ -147,6 +147,10 @@ def addfriend():
         return render_template("addfriend.html")
     else: 
         email = request.form.get("email")
+        # double check
+        id = db.execute("SELECT id FROM users WHERE email = ?", email)
+        db.execute("INSERT INTO friendships(member1id, member2id) VALUES(?, ?)", session["user_id"], id)
+        return redirect("/friends")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
