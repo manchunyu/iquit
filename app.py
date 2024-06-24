@@ -132,7 +132,9 @@ def leaderboard():
 def search():
     q = request.args.get("q")
     info = db.execute("SELECT * FROM users WHERE email = ?", q)
-    return jsonify(info)
+    user_info = info[0]
+    if user_info:
+        return jsonify(info)
 
 @app.route("/friends")
 def friends():
@@ -149,7 +151,7 @@ def addfriend():
         email = request.form.get("email")
         # double check
         id = db.execute("SELECT id FROM users WHERE email = ?", email)
-        db.execute("INSERT INTO friendships(member1id, member2id) VALUES(?, ?)", session["user_id"], id)
+        db.execute("INSERT INTO friendships (member1id, member2id) VALUES(?, ?)", session["user_id"], id)
         return redirect("/friends")
 
 @app.route("/login", methods=["GET", "POST"])
