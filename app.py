@@ -140,7 +140,7 @@ def search():
 def friends():
     friends = db.execute("SELECT * FROM users WHERE id IN\
                          (SELECT member2id FROM friendships\
-                         WHERE id = ?)", session["user_id"])
+                         WHERE member1id = ?)", session["user_id"])
     return render_template("friends.html", friends=friends)
 
 @app.route("/addfriend", methods=["GET", "POST"])
@@ -148,9 +148,7 @@ def addfriend():
     if request.method == "GET": 
         return render_template("addfriend.html")
     else: 
-        email = request.form.get("email")
-        # double check
-        id = db.execute("SELECT id FROM users WHERE email = ?", email)
+        id = request.form.get("id")
         db.execute("INSERT INTO friendships (member1id, member2id) VALUES(?, ?)", session["user_id"], id)
         return redirect("/friends")
 

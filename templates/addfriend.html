@@ -7,8 +7,8 @@
         <input autofocus name="q" type="email" placeholder="Enter their Email">
         <button type="submit">Search</button>
     
-        <ul id="userslist" name="user"></ul>
     </form>
+        <ul id="userslist" name="user"></ul>
 
     <script>
         document.getElementById('search-form').addEventListener('submit', async function(event) {
@@ -29,7 +29,12 @@
                 let firstName = friend[0]['first_name'];
                 let lastName = friend[0]['last_name'];
                 let id = friend[0]['id'];
-                let html = '<li style="list-style-type: none">' + firstName + ' ' + lastName + '</li>';
+                let html = `<li style="list-style-type: none"> 
+                                <form action="/addfriend" method="post">
+                                    <input name ="id" value=${id} hidden>${firstName} ${lastName}
+                                    <button type="submit">Add Friend</button>
+                                </form>
+                             </li>`;
 
                 ul.innerHTML = html;
             } catch (error) {
