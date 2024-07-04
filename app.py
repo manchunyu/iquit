@@ -103,13 +103,16 @@ def tracker():
         return redirect("/dashboard")
 
     else:
+
         habits = db.execute(
             "SELECT habit FROM habits WHERE user_id = ?", session["user_id"]
         )
-
+        friends_list = db.execute("SELECT first_name, last_name, id FROM users WHERE id IN \
+                                 (SELECT member2id FROM friendships WHERE member1id = ?)", session["user_id"])
         if not habits:
             return redirect("/add")
         
+        # Commented for testing
         """for row in habits:
             # SQLite store as string: has to convert to correct object for comparison
             if (
@@ -119,7 +122,7 @@ def tracker():
                 return apology("Today's work is done", 403)
 
         else:"""
-        return render_template("tracker.html", habits=habits)
+        return render_template("tracker.html", habits=habits, friends_list=friends_list)
 
 @app.route("/leaderboard")
 @login_required

@@ -7,12 +7,12 @@
 
     <form action="/tracker" method="post">
         {% for habit in habits %}
-            <input name="habit" type="checkbox" value="{{ habit.habit }}">{{ habit.habit }}
+            <input name="habit" type="checkbox" value="{{ habit.habit }}">{{ habit.habit }}<br>
         {% endfor%}
-        <input name="verification" type="radio" id="verification">Gain points by a friend's verification
+        <input name="verification" type="checkbox" id="verification">Gain points by a friend's verification
         <select id="friends" hidden>
-            {% for friend in friendships %}
-                <option value="{{ friend.first_name }}"> {{ friend.first_name }}</option>
+            {% for friend in friends_list %}
+                <option value="{{ friend.id }}"> {{ friend.first_name }}</option>
             {% endfor %}
         </select>
         <button type="submit">Submit</button>
@@ -21,7 +21,7 @@
     <script>
         let verification = document.querySelector('#verification');
         let friendsList = document.querySelector('#friends');
-        verification.addEventListener('select', function() {
+        verification.addEventListener('change', function() {
             friendsList.removeAttribute('hidden');
         })
     </script>
